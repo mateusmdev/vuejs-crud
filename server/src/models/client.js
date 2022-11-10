@@ -50,7 +50,6 @@ const Client = sequelize.define('Client', {
         type: DataTypes.STRING,
         allowNull: true
     }
-
 })
 
 User.hasMany(Client, {

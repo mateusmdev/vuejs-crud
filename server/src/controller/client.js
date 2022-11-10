@@ -1,11 +1,9 @@
-const User = require('../models/user.js')
-const bcrypt = require('bcrypt')
-const { generateToken } = require('../utils/jwtToken')
+const Client = require('../models/client.js')
 
 module.exports = {
     async findAll(req, res) {
         try {
-            const allObjects = await User.findAll()
+            const allObjects = await Client.findAll()
             const response = {
                 status: 200,
                 objects: allObjects
@@ -23,7 +21,7 @@ module.exports = {
     async findOne(req, res) {
         try {
             const { id } = req.params
-            const result = await User.findByPk(id)
+            const result = await Client.findByPk(id)
 
             if (result) {
                 response = {
@@ -35,7 +33,7 @@ module.exports = {
             }
 
             res.status(404).json({
-                message: 'Usuário não encontrado',
+                message: 'Cliente não encontrado',
                 status: 404,
                 user: []
             })
@@ -50,28 +48,17 @@ module.exports = {
 
     async create(req, res) {
         try {
-            const hashedPassword = await bcrypt.hash(req.body.password, 10)
-            req.body.password = hashedPassword
-            
-            const [user, created] = await User.findOrCreate({
-                where: { email: req.body.email },
-                defaults: req.body
-            });
+            const created = await Client.create(req.body)
 
             if (created) {
                 const response = {
-                    message: 'Usuário cadastrado!',
-                    user,
+                    message: 'Cliente cadastrado!',
+                    created,
                     status: 201
                 }
 
                 return res.status(201).json(response)
             }
-
-            res.status(400).json({
-                message: 'Já existe um usuário cadastrado com esse email. Por favor, insira outro email.',
-                status: 400,
-            })
 
         } catch (error) {
             return res.status(500).json({
@@ -83,7 +70,7 @@ module.exports = {
 
     async update(req, res) {
         try {
-            const user = await User.findByPk(req.body.id)
+            const user = await Client.findByPk(req.body.id)
             if (user) {
                 const keys = Object.keys(req.body)
                 keys.forEach(columnName => {
@@ -96,7 +83,7 @@ module.exports = {
                 const result = await user.save()
 
                 const response = {
-                    message: 'Usuário atualizado!',
+                    message: 'Cliente atualizado!',
                     user: result,
                     status: 201
                 }
@@ -105,7 +92,7 @@ module.exports = {
             }
 
             res.status(404).json({
-                message: 'Não foi possível encontrar um usuário com esse id',
+                message: 'Não foi possível encontrar um cliente com esse id',
                 status: 404,
                 user: []
             })
@@ -125,52 +112,16 @@ module.exports = {
                 await User.destroy()
 
                 return res.status(201).json({
-                    message: 'Usuário deletado!',
+                    message: 'Cliente deletado!',
                     status: 201,
                 })
             }
 
             res.status(404).json({
-                message: 'Não foi possível encontrar um usuário com esse id',
+                message: 'Não foi possível encontrar um cliente com esse id',
                 status: 404,
             })
 
-        } catch (error) {
-            return res.status(500).json({
-                error: error.message,
-                status: 500
-            })
-        }
-    },
-
-    async authentication(req, res) {
-        try {
-            const user = await User.findOne({
-                where: {
-                    email: req.body.email
-                }
-            })
-
-            if (user) {
-                const compareResult = await bcrypt.compare(req.body.password, user.password)
-                if (compareResult) {
-                    const token = generateToken({
-                        id: user.id,
-                        name: user.name
-                    })
-
-                    return res.status(201).json({
-                        message: 'Usuário autenticado!',
-                        token,
-                        status: 201
-                    })
-                }
-            }
-
-            res.status(401).json({
-                message: 'Falha na autenticação',
-                status: 401
-            })
         } catch (error) {
             return res.status(500).json({
                 error: error.message,
