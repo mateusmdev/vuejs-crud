@@ -11,6 +11,7 @@ module.exports = {
 
             res.status(200).json(response)
         } catch (error) {
+            console.log(error)
             return res.status(500).json({
                 error: error,
                 status: 500
@@ -107,9 +108,11 @@ module.exports = {
 
     async delete(req, res) {
         try {
-            const user = await User.findByPk(req.body.id)
+            const user = await Client.findByPk(req.body.id)
             if (user) {
-                await User.destroy()
+                await Client.destroy( { where: {
+			id: req.body.id
+		} } )
 
                 return res.status(201).json({
                     message: 'Cliente deletado!',

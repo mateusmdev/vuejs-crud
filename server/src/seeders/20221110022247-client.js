@@ -15,6 +15,7 @@ module.exports = {
       mother_name: "",
       createdAt: new Date(),
       updatedAt: new Date(),
+      user_id: 1
      }], {});
   },
 

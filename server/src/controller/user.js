@@ -122,7 +122,9 @@ module.exports = {
         try {
             const user = await User.findByPk(req.body.id)
             if (user) {
-                await User.destroy()
+                await User.destroy( { where: {
+			id: req.body.id
+		} })
 
                 return res.status(201).json({
                     message: 'Usuário deletado!',
