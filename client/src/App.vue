@@ -28,6 +28,7 @@ export default {
     font-size: 1rem;
     background: #1b1c31;
     color: #fbfdfd;
+    margin: 0 1em
   }
 
 </style>

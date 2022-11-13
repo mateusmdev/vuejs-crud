@@ -3,6 +3,7 @@
     <div>
       <h1>Usuário</h1>
       <i>Gerenciamento de Usuário</i>
+      <ButtonAdd />
     </div>
     <main>
       <div class="card-container">
@@ -13,7 +14,7 @@
       <div class="content">
         <div class="table-content">
           <h2>Lista de Usuários</h2>
-          
+          <Table/>
         </div>
 
         <div class="user-container">
@@ -28,11 +29,13 @@
 <script>
 import Card from "../components/Card.vue";
 import Table from "../components/Table.vue";
+import ButtonAdd from "../components/ButtonAdd.vue";
 
 export default {
   components: {
     Card,
     Table,
+    ButtonAdd
   },
 };
 </script>
@@ -41,6 +44,7 @@ export default {
 .card-container {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
   backgrsdound: red;
 }
 </style>

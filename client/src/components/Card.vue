@@ -23,7 +23,7 @@ export default {
 <style scoped>
 .card {
   background: #26273b;
-  width: 90%;
+  width: 100%;
   height: 140px;
   margin: 20px auto;
   color: #aebbc4;
@@ -36,7 +36,7 @@ export default {
 .card i{
     font-size: 4.8rem;
     position: absolute;
-    top: 20px;
+    bottom: 20px;
     right: 20px;
 }
 .card > div{
