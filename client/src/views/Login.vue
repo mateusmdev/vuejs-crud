@@ -7,10 +7,11 @@
 <script>
 import LoginForm from "../components/LoginForm.vue";
 
+
 export default {
   components: {
     LoginForm,
-  },
+  }
 };
 </script>
 
@@ -20,7 +21,7 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 70vh;
-  bacskground: red;
+  height: 100vh;
+  backgrsound: red;
 }
 </style>

@@ -11,6 +11,6 @@ router.post('/client', controller.create)
 
 router.put('/client', controller.update)
 
-router.delete('/client', controller.delete)
+router.delete('/client/:id', controller.delete)
 
 module.exports = router

@@ -108,10 +108,11 @@ module.exports = {
 
     async delete(req, res) {
         try {
-            const user = await Client.findByPk(req.body.id)
+            const { id } = req.params
+            const user = await Client.findByPk(id)
             if (user) {
                 await Client.destroy( { where: {
-			id: req.body.id
+			id: id
 		} } )
 
                 return res.status(201).json({

@@ -1,8 +1,17 @@
 <template>
-    <div class="btn-add">
-        <img src="../assets/edit.svg" alt="" />
+    <div class="btn-add" v-on:click="toggle">
+        <img src="../assets/plus.svg" alt="" />
     </div>
 </template>
+
+<script>
+export default {
+    name: 'ButtonAdd',
+    props: {
+        toggle: Function
+    }
+}
+</script>
 
 <style scoped>
     .btn-add{
@@ -21,5 +30,6 @@
     .btn-add img{
         width: 70%;
         height: 70%;
+        filter: invert(70%);
     }
 </style>

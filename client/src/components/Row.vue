@@ -1,26 +1,50 @@
 <template>
   <div class="row">
-    <div class="id">1</div>
-    <div class="name">Alguem</div>
-    <div class="age">20</div>
-    <div class="genre">Male</div>
-    <div class="zip-code">xxxxx-xxx</div>
-    <div class="state">São Paulo</div>
-    <div class="city">Sao paulo</div>
-    <div class="district">fdsfdsfds</div>
-    <div class="street">fdsfadsfdsfds</div>
-    <div class="father-name">fdsafsdfdsa dsfads</div>
-    <div class="mother-name">dfds dsfasdfsd</div>
-    <div class="btn">
-      <div class="edit">
+    <div class="id">{{ this.$props.json.id }}</div>
+    <div class="name">{{ this.$props.json.name }}</div>
+    <div class="age">{{ this.$props.json.age }}</div>
+    <div class="genre">{{ this.$props.json.genre ? "Masculino" : "Feminino" }}</div>
+    <div class="zip-code">{{ this.$props.json.zip_code }}</div>
+    <div class="state">{{ this.$props.json.state }}</div>
+    <div class="city">{{ this.$props.json.city }}</div>
+    <div class="district">{{ this.$props.json.district }}</div>
+    <div class="street">{{ this.$props.json.street }}</div>
+    <div class="father-name">{{ this.$props.json.father_name }}</div>
+    <div class="mother-name">{{ this.$props.json.mother_name }}</div>
+    <div class="btn" v-if="btnDisplay">
+      <div class="edit" v-on:click="toggle(this.$props.json)">
         <img src="../assets/edit.svg" alt="" />
       </div>
-      <div class="delete">
+      <div class="delete" v-on:click="deleteRow">
         <img src="../assets/delete.svg" alt="" />
       </div>
     </div>
   </div>
 </template>
+
+<script>
+import server from "../services/server";
+
+export default {
+  props: {
+    json: Object,
+    toggle: Function,
+    update: Function,
+    btnDisplay: Boolean
+  },
+  methods: {
+    async deleteRow(){
+      try {
+        const response = await server.delete(`/client/${this.$props.json.id}`)
+        alert('Cliente deletado')
+        this.$props.update()
+      } catch (error) {
+        alert('Não foi possível deletar o cliente')
+      }
+    }
+  },
+};
+</script>
 
 <style scoped>
 .row {
@@ -70,18 +94,18 @@
 }
 .row .street {
   grid-column-start: 27;
-  grid-column-end: 32;
+  grid-column-end: 34;
 }
 .row .father-name {
-  grid-column-start: 32;
-  grid-column-end: 37;
+  grid-column-start: 34;
+  grid-column-end: 39;
 }
 .row .mother-name {
-  grid-column-start: 37;
-  grid-column-end: 43;
+  grid-column-start: 39;
+  grid-column-end: 44;
 }
 .row .btn {
-  grid-column-start: 43;
+  grid-column-start: 44;
   grid-column-end: 46;
   display: flex;
   justify-content: space-around;
@@ -91,11 +115,11 @@
   width: 25px;
   height: 25px;
   cursor: pointer;
-  background: #aebbc4;
   padding: 2px;
 }
 .row .btn img {
   width: 100%;
   height: 100%;
+  filter: invert(70%);
 }
 </style>
